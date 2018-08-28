@@ -44,6 +44,9 @@ def create_app(config_type):
     # 开启日志
     setup_log()
 
+    # 关联models
+    from app import models
+
     return app
 
 
