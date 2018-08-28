@@ -1,32 +1,16 @@
-from flask import Flask, session
-from flask_sqlalchemy import SQLAlchemy
-from redis import StrictRedis
-from flask_session import Session
 from flask_script import Manager
-from flask_migrate import Migrate, MigrateCommand
+from flask_migrate import MigrateCommand
+from app import create_app
 
-from config import Config
-
-app = Flask(__name__)
-
-app.config.from_object(Config)
-
-db = SQLAlchemy(app)
-
-sr = StrictRedis(host=Config.REDIS_HOST, port=Config.REDIS_PORT)
-
-Session(app)
+app = create_app('dev')
 
 manager = Manager(app)  # 脚本启动,在configurations里添加runserver -d
 
-Migrate(app, db)  # 初始化迁移器
 manager.add_command('mc', MigrateCommand)  # 添加迁移命令,terminal python3 main.py mc init
 
 
 @app.route('/')
 def index():
-    sr.set('name', 'maimai')  # redis存储测试
-    session['name'] = 'maimai'  # session存储测试,现在会存储到redis
     return 'hello'
 
 

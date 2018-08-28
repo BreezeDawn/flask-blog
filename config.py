@@ -29,3 +29,9 @@ class DevelopConfig(Config):  # 开发环境
 
 class ProductConfig(Config):  # 生产环境
     DEBUG = False
+
+
+config_dict = {
+    'dev': DevelopConfig,
+    'pro': ProductConfig
+}
