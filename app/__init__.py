@@ -1,3 +1,6 @@
+import logging
+from logging.handlers import RotatingFileHandler
+
 from flask import Flask
 from redis import StrictRedis
 from flask_session import Session
@@ -12,7 +15,9 @@ sr = None   # type: StrictRedis
 
 
 def create_app(config_type):
-    # 初始化app对象
+    """"app初始化"""
+
+    # 创建app对象
     app = Flask(__name__)
 
     # 获取传入环境对应的配置类,并进行配置设定
@@ -36,4 +41,26 @@ def create_app(config_type):
     from app.main import main_blu
     app.register_blueprint(main_blu)
 
+    # 开启日志
+    setup_log()
+
     return app
+
+
+def setup_log():
+    """"日志设定"""
+
+    # 设定日志的 监控等级
+    logging.basicConfig(level=logging.DEBUG)
+
+    # 定义日志记录格式
+    formatter = logging.Formatter('%(levelname)s %(pathname)s:%(lineno)d  %(message)s')
+
+    # 创建日志文件处理器,记得创建logs文件夹
+    log_file_hanlder = RotatingFileHandler('logs/log', maxBytes=1024*1024*100, backupCount=10)
+
+    # 为处理器设定记录格式
+    log_file_hanlder.setFormatter(formatter)
+
+    # 为全局日志增添日志文件处理器
+    logging.getLogger().addHandler(log_file_hanlder)
