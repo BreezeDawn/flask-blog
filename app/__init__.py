@@ -4,6 +4,7 @@ from flask_session import Session
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 
+from app.main import main_blu
 from config import config_dict
 
 
@@ -20,5 +21,7 @@ def create_app(config_type):
     Session(app)
 
     Migrate(app, db)  # 初始化迁移器
+
+    app.register_blueprint(main_blu)
 
     return app
