@@ -5,6 +5,8 @@ from flask_sqlalchemy import SQLAlchemy
 from redis import StrictRedis
 from flask_session import Session
 from flask_script import Manager
+from flask_migrate import Migrate, MigrateCommand
+
 
 class Config:
     # app.config
@@ -36,8 +38,11 @@ sr = StrictRedis(host=Config.REDIS_HOST, port=Config.REDIS_PORT)
 
 Session(app)
 
-# 脚本启动
-manager = Manager(app)
+manager = Manager(app)  # 脚本启动,在configurations里添加runserver -d
+
+Migrate(app, db)  # 初始化迁移器
+manager.add_command('mc', MigrateCommand)  # 添加迁移命令,terminal python3 main.py mc init
+
 
 @app.route('/')
 def index():
