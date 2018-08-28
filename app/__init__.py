@@ -56,7 +56,8 @@ def setup_log():
     # 定义日志记录格式
     formatter = logging.Formatter('%(levelname)s %(pathname)s:%(lineno)d  %(message)s')
 
-    # 创建日志文件处理器,记得创建logs文件夹
+    # 创建日志文件处理器,记得创建logs文件夹,且.gitignore中不应该忽略logs,但是需要忽略log
+    # 且git不会管理空文件夹,因此需要中logs中创建一个隐藏文件保持logs不为空
     log_file_hanlder = RotatingFileHandler('logs/log', maxBytes=1024*1024*100, backupCount=10)
 
     # 为处理器设定记录格式
