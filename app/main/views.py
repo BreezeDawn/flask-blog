@@ -1,11 +1,11 @@
-from flask import send_from_directory
+from flask import send_from_directory, render_template
 
 from . import main_blu
 
 
 @main_blu.route('/')
 def index():
-    return 'hello'
+    return render_template('index.html')
 
 
 @main_blu.route('/favicon.ico')
