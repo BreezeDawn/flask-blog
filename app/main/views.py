@@ -43,7 +43,7 @@ def register():
 
     # 判断该用户是否存在
     if user or user2:  # 提示用户已存在
-        return jsonify(errno=RET.DATAEXIST, errmsg=error_map[RET.DATAEXIST])
+        return jsonify(errno=RET.DATAEXIST, errmsg=u'该用户名已被注册')
 
     user = User()
     user.nick_name = username
@@ -69,6 +69,15 @@ def get_phone_idcode():
     mobile = request.json.get('mobile')
     idCode = ''.join([str(x + random.randint(0, 9)) for x in [0, 0, 0, 0]])
 
+    user = None
+    try:
+        user = User.query.filter_by(mobile=mobile).first()
+    except BaseException as e:
+        current_app.logger.error(e)
+        return jsonify(errno=RET.DATAERR,errmsg=error_map(RET.DATAERR))
+    if user:
+        return jsonify(errno=RET.DATAEXIST,errmsg=u"该手机号已被注册")
+
     if sr.exists(mobile):
         sr.delete(mobile)
 
@@ -81,6 +90,9 @@ def get_phone_idcode():
     current_app.logger.info("短信验证码为: %s" % idCode)
     return jsonify(errno=RET.OK, errmsg=error_map[RET.OK], idCode=idCode)
 
+@main_blu.route('/logout ')
+def logout():
+    pass
 
 @main_blu.route('/favicon.ico')
 def favicon():

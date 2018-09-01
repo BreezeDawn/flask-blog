@@ -136,6 +136,11 @@ $('#get-phone-idcode').click(function (e) {
             if (resp.errno == "0") {
                 phoneIdcode = resp.idCode
             } else {
+                clearInterval(loadingTimer);
+                $('#phone-num-no').show();
+                $('#phone-num-ok').hide();
+                $('#get-phone-idcode').html('获取短信校验码');
+                $('#get-phone-idcode').removeClass('disabled').addClass('btn-primary');
                 alert(resp.errmsg)
             }
         }
@@ -144,7 +149,6 @@ $('#get-phone-idcode').click(function (e) {
 
 $('.register-form').submit(function (e) { 
     e.preventDefault();
-    alert('1')
     // 校验表单所有输入布尔值
     for (x in checks){
         if (!checks[x][1]){
