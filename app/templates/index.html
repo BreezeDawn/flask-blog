@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Maifeel</title>
+    <link rel="stylesheet" href="../static/css/main.css">
     <link rel="stylesheet" href="../static/css/bootstrap.min.css">
     <script src="../static/js/jquery-3.3.1.js"></script>
     <script src="../static/js/bootstrap.min.js"></script>
@@ -51,7 +52,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="#" data-toggle="modal" data-target="#login-form"><span class="glyphicon glyphicon-log-in"></span>
                             登录</a></li>
-                    <li><a href="#" data-toggle="modal" data-target="#register-form"><span class="glyphicon glyphicon-user"></span>
+                    <li><a href="#" class="register" data-toggle="modal" data-target="#register-form"><span class="glyphicon glyphicon-user"></span>
                             注册</a></li>
                 </ul>
             </div>
@@ -78,7 +79,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-default" data-dismiss="modal" data-toggle="modal" data-target="#register-form">
+                        <button class="btn btn-default register" data-dismiss="modal" data-toggle="modal" data-target="#register-form">
                             注册
                         </button>
                         <button type="submit" class="btn btn-info">登录</button>
@@ -107,11 +108,12 @@
                                     <label for="username">用户名</label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-                                        <input id="username" class="form-control" placeholder="请输入用户名" maxlength="20" type="text">
+                                        <input id="username" class="form-control" placeholder="请输入用户名" maxlength="11" type="text">
                                     </div>
         
-                                    <span style="display: none;" class=" glyphicon glyphicon-remove form-control-feedback"></span>
-                                    <span style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span>
+                                    <span class="register-error" id="username-error" style="display: none;" >用户名需非数字开头2-11位</span>
+                                    <span id="username-no" style="display: none;" class=" glyphicon glyphicon-remove form-control-feedback"></span>
+                                    <span id="username-ok" style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span>
                                 </div>
         
                                 <!-- 密码 -->
@@ -121,9 +123,10 @@
                                         <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
                                         <input id="password" class="form-control" placeholder="请输入密码" maxlength="20" type="password">
                                     </div>
-                    
-                                    <span style="display: none;" class="glyphicon glyphicon-remove form-control-feedback"></span>
-                                    <span style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span>
+
+                                    <span class="register-error" id="password-error" style="display: none;" >密码需6-20位</span>
+                                    <span id="password-no"  style="display: none;" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                                    <span id="password-ok"  style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span>
                                 </div>
                     
                                 <div class="form-group has-feedback">
@@ -132,9 +135,10 @@
                                         <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
                                         <input id="confirm-password" class="form-control" placeholder="请再次输入密码" maxlength="20" type="password">
                                     </div>
-        
-                                    <span style="display: none;" class="glyphicon glyphicon-remove form-control-feedback"></span>
-                                    <span style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span>
+
+                                    <span class="register-error" id="confirm-password-error" style="display: none;" >两次密码输入不一致</span>
+                                    <span id="confirm-password-no" style="display: none;" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                                    <span id="confirm-password-ok" style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span>
                                 </div>
         
                                 <!-- 验证码 -->
@@ -147,12 +151,16 @@
                                                 <input id="img-idcode" class="form-control" placeholder="请输入验证码" maxlength="4" type="text">
                                             </div>
         
-                                            <span style="display: none;" class="glyphicon glyphicon-remove form-control-feedback"></span>
-                                            <span style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span>
+                                            <span class="register-error" id="img-idcode-error" style="display: none;" >请输入正确的验证码</span>
+                                            <span 
+                                            id="img-idcode-no"
+                                            style="display: none;" class="glyphiconglyphicon-removeform-control-feedback"></span>
+                                            <span id="img-idcode-ok" style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span>
                                         </div>
                                     </div>
-                                    <div class="col-xs-5" style="padding-top: 32px">
-                                        <div id="idcode" style="background: transparent;">1232</div>
+                                    <div class="col-xs-5" id="img-idcode-random">
+                                        <div class=" form-control-static" id="img-idcode-display" style="background: transparent;">
+                                        </div>
                                     </div>
                                 </div>
         
@@ -164,8 +172,9 @@
                                         <input id="phone-num" class="form-control" placeholder="请输入手机号码" maxlength="11" type="text">
                                     </div>
         
-                                    <span style="display: none;" class="glyphicon glyphicon-remove form-control-feedback"></span>
-                                    <span style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span>
+                                    <span class="register-error" id="phone-num-error" style="display: none;" >手机号码只能为11位数字</span>
+                                    <span id="phone-num-no" style="display: none;" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                                    <span id="phone-num-ok" style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span>
                                 </div>
         
                                 <!-- 手机校验码 -->
@@ -177,14 +186,15 @@
                                                 <span class="input-group-addon"><span class="glyphicon glyphicon-qrcode"></span></span>
                                                 <input id="phone-idcode" class="form-control" placeholder="请输入校验码" maxlength="6" type="text">
                                             </div>
-        
-                                            <span style="display: none;" class="glyphicon glyphicon-remove form-control-feedback"></span>
-                                            <span style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span>
+
+                                            <span class="register-error" id="phone-idcode-error" style="display: none;" >请输入正确的验证码</span>
+                                            <span id="phone-idcode-no"  style="display: none;" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                                            <span id="phone-idcode-ok"  style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span>
                                         </div>
                                     </div>
         
                                     <div class="col-xs-5 text-center" style="padding-top: 25px">
-                                        <button type="button" id="loading" class="btn btn-primary" autocomplete="off">获取短信校验码</button>
+                                        <button type="button" id="get-phone-idcode" class="btn btn-primary" autocomplete="off">获取短信校验码</button>
                                     </div>   
                                 </div>
                             </div>
@@ -230,5 +240,9 @@
     <p>asdasdfasdf</p>
     <p>asdasdfasdf</p>
     <p>asdasdfasdf</p>
+
+
+
+    <script src="../static/js/main.js"></script>
 </body>
 </html>
