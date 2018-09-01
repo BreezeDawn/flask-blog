@@ -2,6 +2,7 @@ import logging
 from logging.handlers import RotatingFileHandler
 
 from flask import Flask
+from flask_login import LoginManager
 from redis import StrictRedis
 from flask_session import Session
 from flask_migrate import Migrate
@@ -12,6 +13,7 @@ from config import config_dict
 # 数据库全局变量
 db = None   # type: SQLAlchemy
 sr = None   # type: StrictRedis
+login_manager = None # type: LoginManager
 
 
 def create_app(config_type):
@@ -25,7 +27,7 @@ def create_app(config_type):
     app.config.from_object(config_class)
 
     # 数据库全局设定
-    global db, sr
+    global db, sr,login_manager
 
     db = SQLAlchemy(app)
 
@@ -37,9 +39,15 @@ def create_app(config_type):
     # 初始化迁移器
     Migrate(app, db)
 
-    # 创建主蓝图
+    login_manager = LoginManager()
+    login_manager.init_app(app)
+
+    # 创建蓝图
     from app.main import main_blu
     app.register_blueprint(main_blu)
+
+    from app.auth import auth_blu
+    app.register_blueprint(auth_blu)
 
     # 开启日志
     setup_log()

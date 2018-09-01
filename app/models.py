@@ -1,7 +1,9 @@
 from datetime import datetime
+
+from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from app import db
+from app import db, login_manager
 
 
 class BaseModel(object):
@@ -10,7 +12,7 @@ class BaseModel(object):
     update_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)  # 记录的更新时间
 
 
-class User(BaseModel, db.Model):
+class User(BaseModel, UserMixin, db.Model):
     """用户"""
     __tablename__ = "blog_user"
 
@@ -64,6 +66,12 @@ class User(BaseModel, db.Model):
 
     def check_password(self, password):  # 封装密码校验过程
         return check_password_hash(self.password_hash, password)
+
+@login_manager.user_loader
+###加载用户的回调函数接收以Unicode字符串形式表示的用户标示符
+###如果能找到用户，这个函数必须返回用户对象，否则返回None。
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 
 class Blogs(BaseModel, db.Model):
