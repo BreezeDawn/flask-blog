@@ -9,6 +9,39 @@ from app.models import User
 from app.auth import auth_blu
 from app.response_code import RET, error_map
 
+@auth_blu.route('/login', methods=['POST'])
+def login():
+    # 获取数据
+    username = request.json.get('username')
+    password = request.json.get('password')
+    # 校验数据
+    if not all([username, password]):
+        return jsonify(errno=RET.PARAMERR, errmsg=error_map[RET.PARAMERR])
+
+    try:
+        user = User.query.filter_by(nick_name=username).first()
+        user2 = User.query.filter_by(mobile=username).first()
+    except BaseException as e:
+        current_app.logger.error(e)
+        return jsonify(errno=RET.DBERR, errmsg=error_map[RET.DBERR])
+
+    if not user and not user2:
+        return jsonify(errno=RET.USERERR, errmsg=error_map[RET.USERERR])
+
+    user = user if not user2 else user2
+
+    # 校验密码
+    if not user.check_password(password):
+        return jsonify(errno=RET.PWDERR, errmsg=error_map[RET.PWDERR])
+
+    # 记录用户最后的登录时间
+    user.last_login = datetime.now()
+
+    # 状态保持
+    login_user(user)
+
+    # 将校验结果以json返回
+    return jsonify(errno=RET.OK, errmsg=error_map[RET.OK])
 
 @auth_blu.route('/register', methods=['POST'])
 def register():
@@ -30,8 +63,10 @@ def register():
         return jsonify(errno=RET.DBERR, errmsg=error_map[RET.DBERR])
 
     # 判断该用户是否存在
-    if user or user2:  # 提示用户已存在
+    if user:  # 提示用户已存在
         return jsonify(errno=RET.DATAEXIST, errmsg=u'该用户名已被注册')
+    if user2:
+        return jsonify(errno=RET.DATAEXIST, errmsg=u'该手机号已被注册')
 
     user = User()
     user.nick_name = username

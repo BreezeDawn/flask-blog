@@ -1,3 +1,49 @@
+
+// 登录页面 登录页面 登录页面 登录页面 登录页面 登录页面 登录页面 登录页面 登录页面
+
+// 登录页面 默认焦点
+$('#login-form').on('shown.bs.modal',function(e){
+    $('#login-username').focus();
+});
+
+// 发起登录请求
+$('.login-form').submit(function (e) { 
+    e.preventDefault();
+    var params = {
+        "username": $('#login-username').val(),
+        "password": $('#login-password').val(),
+        }
+        
+        $.ajax({
+            url: "/login",
+            type: "post",
+            contentType: "application/json",
+            data: JSON.stringify(params),
+            success: function (resp) {
+                if (resp.errno == "0") {
+                    // 代表注册成功就代表登录成功
+                    location.reload()
+                } else {
+                    // 代表注册失败
+                    alert(resp.errmsg)
+                    $("#register-password-err").html(resp.errmsg)
+                    $("#register-password-err").show()
+                }
+            }
+        })
+});
+
+
+
+
+
+
+// 注册页面 注册页面 注册页面 注册页面 注册页面 注册页面 注册页面 注册页面 注册页面
+$('.login-form').submit(function (e) { 
+    e.preventDefault();
+    
+});
+
 // 定义手机校验码变量
 var phoneIdcode;
 
@@ -12,8 +58,6 @@ function idcodeRandom(){
         letters[Math.floor(Math.random() * 39)]
     return randWord
 }
-
-// 注册页面 注册页面 注册页面 注册页面 注册页面 注册页面 注册页面 注册页面 注册页面
 
 // 所有数据变量校验值
 var checks = {
@@ -78,7 +122,7 @@ $('#img-idcode-display').click(function (e) {
 });
 
 // 注册页面 所有输入校验
-$('form input').blur(function (e) { 
+$('#register-form input').blur(function (e) { 
     e.preventDefault();
     var idName = $(this).attr('id')
     var value = $(this).val();
