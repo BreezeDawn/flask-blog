@@ -50,10 +50,17 @@
                     <li><a href="#">生活</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#" data-toggle="modal" data-target="#login-form"><span class="glyphicon glyphicon-log-in"></span>
+                    {% if user %}
+                     <li><a href="#"><span class="glyphicon glyphicon-log-in"></span>
+                            注销</a></li>
+                     <li><a href="#"><span class="glyphicon glyphicon-user"></span>
+                            {{ user.nick_name }}</a></li>
+                    {% else %}
+                     <li><a href="#" data-toggle="modal" data-target="#login-form"><span class="glyphicon glyphicon-log-in"></span>
                             登录</a></li>
-                    <li><a href="#" class="register" data-toggle="modal" data-target="#register-form"><span class="glyphicon glyphicon-user"></span>
+                     <li><a href="#" class="register" data-toggle="modal" data-target="#register-form"><span class="glyphicon glyphicon-user"></span>
                             注册</a></li>
+                    {% endif %}
                 </ul>
             </div>
         </div>
@@ -99,7 +106,7 @@
                     <h4 class="modal-title">注册</h4>
                 </div>
                 
-                <form action="127.0.0.1:5000/register" class="">
+                <form  class="register-form">
                     <div class="modal-body">
                         <div class="container">
                             <div class="col-md-6">
@@ -184,7 +191,7 @@
                                             <label for="phone-idcode">校验码</label>
                                             <div class="input-group">
                                                 <span class="input-group-addon"><span class="glyphicon glyphicon-qrcode"></span></span>
-                                                <input id="phone-idcode" class="form-control" placeholder="请输入校验码" maxlength="6" type="text">
+                                                <input id="phone-idcode" class="form-control" placeholder="请输入校验码" maxlength="4" type="text">
                                             </div>
 
                                             <span class="register-error" id="phone-idcode-error" style="display: none;" >请输入正确的验证码</span>

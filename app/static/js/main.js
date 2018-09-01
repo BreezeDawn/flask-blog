@@ -1,3 +1,6 @@
+// 定义手机校验码变量
+var phoneIdcode;
+
 // 生成四位随机验证码
 var randWord;
 function idcodeRandom(){
@@ -20,7 +23,6 @@ var checks = {
             return reg.test(v)
         },
         false,
-        ''
     ],
     'password':[
         function(v){
@@ -28,21 +30,18 @@ var checks = {
             return reg.test(v)
         },
         false,
-        ''
     ],
     'confirm-password':[
         function(v){
             return v == $('#password').val() && v != ''
         },
         false,
-        ''
     ],
     'img-idcode':[
         function(v){
             return v == randWord
         },
         false,
-        ''
     ],
     'phone-num':[
         function(v){
@@ -50,9 +49,13 @@ var checks = {
             return reg.test(v)
         },
         false,
-        ''
     ],
-    'phone-idcode':[,false],
+    'phone-idcode':[
+        function(v){
+            return v == phoneIdcode
+        },
+        false
+    ],
 }
 
 
@@ -112,6 +115,9 @@ $('#get-phone-idcode').click(function (e) {
             clearInterval(loadingTimer);
             $('#get-phone-idcode').html('重新获取校验码');
             $('#get-phone-idcode').removeClass('disabled').addClass('btn-primary');
+            $('#phone-idcode-error').html('验证码已过期');
+            $('#phone-idcode-error').show();
+            checks['phone-idcode'][1] = false;
         }
     },1000)
 
@@ -126,17 +132,49 @@ $('#get-phone-idcode').click(function (e) {
         type: "post",
         contentType: "application/json",
         data: JSON.stringify(params),
-        // success: function (resp) {
-        //     if (resp.errno == "0") {
-        //         // 代表登录成功
-        //         location.reload()
-        //     } else {
-        //         alert(resp.errmsg)
-        //         $("#login-password-err").html(resp.errmsg)
-        //         $("#login-password-err").show()
-        //     }
-        // }
-    })
+        success: function (resp) {
+            if (resp.errno == "0") {
+                phoneIdcode = resp.idCode
+            } else {
+                alert(resp.errmsg)
+            }
+        }
+    });
+});
 
-})
+$('.register-form').submit(function (e) { 
+    e.preventDefault();
+    alert('1')
+    // 校验表单所有输入布尔值
+    for (x in checks){
+        if (!checks[x][1]){
+            alert($('label[for="'+ x +'"]').text()+'格式错误')
+            return
+        }
+    }
+
+    // 发起注册请求
+    var params = {
+        "username": $('#username').val(),
+        "password": $('#password').val(),
+        "mobile": $('#phone-num').val()
+    }
+
+        $.ajax({
+            url: "/register",
+            type: "post",
+            contentType: "application/json",
+            data: JSON.stringify(params),
+            success: function (resp) {
+                if (resp.errno == "0") {
+                    // 代表注册成功就代表登录成功
+                    location.reload()
+                } else {
+                    // 代表注册失败
+                    alert(resp.errmsg)
+                    $("#register-password-err").html(resp.errmsg)
+                    $("#register-password-err").show()
+                }
+            }
+        })
 });
