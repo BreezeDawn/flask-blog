@@ -1,61 +1,19 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
-    <p>qwerwer</p>
+   <div class="content-header" style="background: url(../static/image/content-header.jpg) no-repeat center center;">
+    <div class="col-xs-12 text-center cover-layout">
+        <h1 class="content-header-h1" >Maifeel</h1>
+        <h3 class="content-header-h3" >Clean & minimal Blog </h3>
+        {% if user %}
+        <h3 class="content-header-h3"> 欢迎回来 ! </h3>
+        {% else %}
+        <ul class="list-inline btn-layout">
+            <li><a  id="header-login-btn" class="btn btn-lg" data-toggle="modal" data-target="#login-form">Login</a></li>
+            <li><a  id="header-register-btn" class="btn btn-lg" data-toggle="modal" data-target="#register-form">Register</a></li>
+        </ul>
+        {% endif %}
+    </div> 
+    
+   </div>
 {% endblock %}

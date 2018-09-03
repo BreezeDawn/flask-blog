@@ -1,4 +1,28 @@
-/* 验证码外框 */
+
+/* base.html */
+
+::selection{background: #1abc9c;}
+
+/* 导航登录注册按钮 */
+.login-btn,.register-btn {
+    cursor: pointer;
+}
+
+/* 注册模态框 重置输入框 */
+.register-form .glyphicon-remove {
+    pointer-events:auto;
+    cursor: pointer;
+}
+
+/* 注册模态框 错误信息 */
+#register-error {
+    display: none;
+    margin-top: -6px;
+    margin-bottom: 0px;
+    color:red;
+}
+
+/* 注册模态框 验证码外框 */
 #img-idcode-random {
     margin-top: 27px;
     width: 80px;
@@ -10,9 +34,63 @@
     cursor: pointer;
 }
 
-/* 用户名错误信息 */
-.register-error {
-    padding-top:7px;
-    color:red;
+
+
+
+/* index.html */
+
+/* 首页背景图 */
+.content-header {
+    width: 100%;
+}
+
+/* 首页中心格局 */
+.cover-layout {
+    top: 20%;
+    color: #f8f8f8;
+}
+
+/* 首页中心字体 */
+.content-header-h1, .content-header-h2, .content-header-h3 {
+    margin-top: 29px;
+    margin-bottom: 5px;
+}
+
+.content-header-h1 {
+    font-size: 80px;
+    font-family: arvo;
+    letter-spacing: 6px;
+}
+.content-header-h3 {
+    font-size: 30px;
+}
+
+/* 首页中心按钮布局 */
+.btn-layout {
+    margin-top: 30px;
+}
+
+#header-login-btn {
+    border: 1px solid #4A90BE;
+    background-color: #4A90BE;
+    color: #fff;
+}
+
+#header-login-btn:hover {
+    border: 1px solid #4A90BE;
+    color: #4A90BE !important;
+    background: rgba(204, 204, 204, 0);
+}
+
+#header-register-btn {
+    border: 1px solid #fff;
+    color: #fff;
+}
+
+#header-login-btn,#header-register-btn{
+    padding: 10px 19px;
+    font-size: 17px;
+    line-height: 1.473333;
+    border-radius: 6px;
 }
 

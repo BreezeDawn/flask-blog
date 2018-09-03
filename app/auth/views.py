@@ -110,7 +110,7 @@ def get_phone_idcode():
         current_app.logger.error(e)
         return jsonify(errno=RET.DBERR, errmsg=error_map[RET.DBERR])
 
-    current_app.logger.info("短信验证码为: %s" % idCode)
+    current_app.logger.info("\n短信验证码为: %s.\n1分钟有效!" % idCode)
     return jsonify(errno=RET.OK, errmsg=error_map[RET.OK], idCode=idCode)
 
 

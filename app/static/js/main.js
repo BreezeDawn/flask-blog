@@ -1,10 +1,24 @@
+// ----------------------------------------------------------
+// 首页 首页 首页 首页 首页 首页 首页 首页 首页 首页 首页 首页 首页
 
+// 首页图片 最大显示
+var wh = window.innerHeight;
+$('.content-header').css({'height':wh+'px'});
+
+
+// ----------------------------------------------------------
 // 登录页面 登录页面 登录页面 登录页面 登录页面 登录页面 登录页面 登录页面 登录页面
 
 // 登录页面 默认焦点
 $('#login-form').on('shown.bs.modal',function(e){
     $('#login-username').focus();
-});
+})
+
+// 收起登录模态框
+$('#login-form').on('hidden.bs.modal',function(e){
+    // 清空填写信息
+    $("#login-form input").val("");
+})
 
 // 发起登录请求
 $('.login-form').submit(function (e) { 
@@ -12,37 +26,69 @@ $('.login-form').submit(function (e) {
     var params = {
         "username": $('#login-username').val(),
         "password": $('#login-password').val(),
-        }
-        
-        $.ajax({
-            url: "/login",
-            type: "post",
-            contentType: "application/json",
-            data: JSON.stringify(params),
-            success: function (resp) {
-                if (resp.errno == "0") {
-                    // 代表注册成功就代表登录成功
-                    location.reload()
-                } else {
-                    // 代表注册失败
-                    alert(resp.errmsg)
-                    $("#register-password-err").html(resp.errmsg)
-                    $("#register-password-err").show()
-                }
-            }
-        })
-});
-
-
-
-
-
-
-// 注册页面 注册页面 注册页面 注册页面 注册页面 注册页面 注册页面 注册页面 注册页面
-$('.login-form').submit(function (e) { 
-    e.preventDefault();
+    };
     
-});
+    $.ajax({
+        url: "/login",
+        type: "post",
+        contentType: "application/json",
+        data: JSON.stringify(params),
+        success: function (resp) {
+            if (resp.errno == "0") {
+                // 代表注册成功就代表登录成功
+                location.reload();
+            } else {
+                // 代表注册失败
+                alert(resp.errmsg);
+                $("#register-password-err").html(resp.errmsg);
+                $("#register-password-err").show();
+            }
+        },
+    })
+})
+
+
+// ----------------------------------------------------------
+// 注册页面 注册页面 注册页面 注册页面 注册页面 注册页面 注册页面 注册页面 注册页面
+
+// 注册页面 点击输入框的X重置输入框
+$('.register-form .glyphicon-remove').click(function(){
+    var beClickNamelist = $(this).attr('id').split('-');
+    beClickNamelist.pop();
+    var beResetId = beClickNamelist.join('-');
+    $('#'+beResetId).val('');
+    $('#'+beResetId).focus();
+    $('#register-error').html('');
+})
+
+// 打开注册模态框
+$('#register-form').on('shown.bs.modal',function(e){
+    // 默认焦点
+    $('#username').focus();
+    // 刷新验证码
+    $('#img-idcode-display').html(idcodeRandom());
+})
+
+// 收起注册模态框
+$('#register-form').on('hidden.bs.modal',function(e){
+    // 清空填写信息
+    $("#register-form input").val("");
+    // 隐藏判断span
+    $('#register-form .form-control-feedback').hide();
+    // 
+    for (x in checks){
+        checks[x][1] = false;
+    }
+})
+
+// 注册页面 点击验证码
+$('#img-idcode-display').click(function (e) { 
+    e.preventDefault();
+    // 刷新验证码
+    $(this).html(idcodeRandom());
+    // 焦点调整到填写验证码
+    $('#img-idcode').focus();
+})
 
 // 定义手机校验码变量
 var phoneIdcode;
@@ -55,102 +101,108 @@ function idcodeRandom(){
         letters[Math.floor(Math.random() * 30)] +
         letters[Math.floor(Math.random() * 39)] +
         letters[Math.floor(Math.random() * 39)] +
-        letters[Math.floor(Math.random() * 39)]
-    return randWord
+        letters[Math.floor(Math.random() * 39)];
+    return randWord;
 }
 
 // 所有数据变量校验值
 var checks = {
     'username':[
+        // 校验函数
         function(v){
-            var reg = /^[\D]{2,11}$/;
-            return reg.test(v)
+            var reg = /^[\D][\u4e00-\u9fff\w]{1,10}$/;
+            return reg.test(v);
         },
+        // 校验结果
         false,
+        // 校验成功后的数据
+        '',
+        // 校验错误信息
+        '用户名:2-11位(中文、字母、数字、下划线)/非数字开头',
     ],
     'password':[
         function(v){
             var reg = /[a-zA-Z0-9~!@#%&=;':",./<>_\-\}\]\$\(\)\*\+\.\[\?\\\^\{\|]{6,20}$/;
-            return reg.test(v)
+            return reg.test(v);
         },
         false,
+        '',
+        '密码需6-20位',
     ],
     'confirm-password':[
         function(v){
             return v == $('#password').val() && v != ''
         },
         false,
+        '',
+        '两次密码输入不一致',
     ],
     'img-idcode':[
         function(v){
-            return v == randWord
+            return v == randWord;
         },
         false,
+        '',
+        '请输入正确的验证码',
     ],
     'phone-num':[
         function(v){
             var reg = /^[0-9]{11}$/;
-            return reg.test(v)
+            return reg.test(v);
         },
         false,
+        '',
+        '手机号码只能为11位数字',
     ],
     'phone-idcode':[
         function(v){
-            return v == phoneIdcode
+            return v == phoneIdcode;
         },
-        false
+        false,
+        '',
+        '请输入正确的验证码',
     ],
 }
-
-
-// 注册页面 验证码的显示
-$('.register').click(function (e) { 
-    e.preventDefault();
-    $('#img-idcode-display').html(idcodeRandom())
-});
-
-// 注册页面 默认焦点
-$('#register-form').on('shown.bs.modal',function(e){
-    $('#username').focus();
-});
-
-// 注册页面 点击验证码 刷新验证码
-$('#img-idcode-display').click(function (e) { 
-    e.preventDefault();
-    $(this).html(idcodeRandom())
-    $('#img-idcode').focus();
-});
 
 // 注册页面 所有输入校验
 $('#register-form input').blur(function (e) { 
     e.preventDefault();
-    var idName = $(this).attr('id')
+    var idName = $(this).attr('id');
     var value = $(this).val();
-    var check = checks[idName][0](value)
+    var check = checks[idName][0](value);
     if (check){
         $('#'+idName+'-ok').show();
         $('#'+idName+'-no').hide();
-        $('#'+idName+'-error').hide();
-        checks[idName][1] = true
-        checks[idName][2] = value
+        $('#register-error').html('');
+        checks[idName][1] = true;
+        checks[idName][2] = value;
     }else{
         $('#'+idName+'-no').show();
         $('#'+idName+'-ok').hide();
-        $('#'+idName+'-error').show();
-    };
-});
+        $('#register-error').html(checks[idName][3]);
+        $('#register-error').show();
+    }
+})
 
 // 注册页面 获取短信验证码
 $('#get-phone-idcode').click(function (e) { 
     e.preventDefault();
     if (!checks['phone-num'][1]){
-        $('#phone-idcode-error').html('请输入手机号');
-        $('#phone-idcode-error').show();
-        return
+        alert('请输入正确的手机号');
+        return;
     }
+
+    var checksList = ['username','password','confirm-password','img-idcode','phone-num']
+    for (x in checksList){
+        if (!checks[checksList[x]][1]){
+            alert($('label[for="'+ checksList[x] +'"]').text()+'格式错误');
+            return;
+        }
+    }
+
     $(this).removeClass('btn-primary').addClass('disabled');
     $(this).html('<span id="phone-idcode-loading-num">59</span> 秒后重新获取');
-    $('#phone-idcode-loading-num').css('corlor','red')
+    $('#phone-idcode-loading-num').css('corlor','red');
     var loadingNum = $('#phone-idcode-loading-num').text();
     var loadingTimer = setInterval(function(){
         loadingNum--;
@@ -159,8 +211,6 @@ $('#get-phone-idcode').click(function (e) {
             clearInterval(loadingTimer);
             $('#get-phone-idcode').html('重新获取校验码');
             $('#get-phone-idcode').removeClass('disabled').addClass('btn-primary');
-            $('#phone-idcode-error').html('验证码已过期');
-            $('#phone-idcode-error').show();
             checks['phone-idcode'][1] = false;
         }
     },1000)
@@ -168,7 +218,7 @@ $('#get-phone-idcode').click(function (e) {
 
     // 发起请求验证码的请求
     var params = {
-        "mobile": checks['phone-num'][2]
+        "mobile": checks['phone-num'][2],
     }
 
     $.ajax({
@@ -178,26 +228,26 @@ $('#get-phone-idcode').click(function (e) {
         data: JSON.stringify(params),
         success: function (resp) {
             if (resp.errno == "0") {
-                phoneIdcode = resp.idCode
+                phoneIdcode = resp.idCode;
             } else {
                 clearInterval(loadingTimer);
                 $('#phone-num-no').show();
                 $('#phone-num-ok').hide();
                 $('#get-phone-idcode').html('获取短信校验码');
                 $('#get-phone-idcode').removeClass('disabled').addClass('btn-primary');
-                alert(resp.errmsg)
+                alert(resp.errmsg);
             }
-        }
-    });
-});
+        },
+    })
+})
 
 $('.register-form').submit(function (e) { 
     e.preventDefault();
     // 校验表单所有输入布尔值
     for (x in checks){
         if (!checks[x][1]){
-            alert($('label[for="'+ x +'"]').text()+'格式错误')
-            return
+            alert($('label[for="'+ x +'"]').text()+'格式错误');
+            return;
         }
     }
 
@@ -205,7 +255,7 @@ $('.register-form').submit(function (e) {
     var params = {
         "username": $('#username').val(),
         "password": $('#password').val(),
-        "mobile": $('#phone-num').val()
+        "mobile": $('#phone-num').val(),
     }
 
         $.ajax({
@@ -216,13 +266,13 @@ $('.register-form').submit(function (e) {
             success: function (resp) {
                 if (resp.errno == "0") {
                     // 代表注册成功就代表登录成功
-                    location.reload()
+                    location.reload();
                 } else {
                     // 代表注册失败
-                    alert(resp.errmsg)
-                    $("#register-password-err").html(resp.errmsg)
-                    $("#register-password-err").show()
+                    alert(resp.errmsg);
+                    $("#register-password-err").html(resp.errmsg);
+                    $("#register-password-err").show();
                 }
             }
         })
-});
+})
