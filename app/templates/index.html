@@ -1,19 +1,22 @@
 {% extends "base.html" %}
 
 {% block content %}
-   <div class="content-header" style="background: url(../static/image/content-header.jpg) no-repeat center center;">
+   <div class="content-header" style="background: url(../static/image/index-background.jpg) no-repeat center center;background-size:cover;">
     <div class="col-xs-12 text-center cover-layout">
-        <h1 class="content-header-h1" >Maifeel</h1>
-        <h3 class="content-header-h3" >Clean & minimal Blog </h3>
+        <h1 class="content-header-h1 wow fadeIn" data-wow-delay="0.3s">Maifeel</h1>
+        <h3 class="content-header-h3 wow fadeIn" data-wow-delay="0.5s">Clean & minimal Blog </h3>
         {% if user %}
         <h3 class="content-header-h3"> 欢迎回来 ! </h3>
         {% else %}
         <ul class="list-inline btn-layout">
-            <li><a  id="header-login-btn" class="btn btn-lg" data-toggle="modal" data-target="#login-form">Login</a></li>
-            <li><a  id="header-register-btn" class="btn btn-lg" data-toggle="modal" data-target="#register-form">Register</a></li>
+            <li><a  id="header-login-btn" class="btn btn-lg wow fadeIn" data-wow-delay="0.7s" data-toggle="modal" data-target="#login-form">Login</a></li>
+            <li><a  id="header-register-btn" class="btn btn-lg wow fadeIn" data-wow-delay="1s" data-wow-duration="1s" data-toggle="modal" data-target="#register-form">Register</a></li>
         </ul>
         {% endif %}
-    </div> 
-    
-   </div>
+    </div>
+    <div id="content-header-circle" class="col-xs-12 text-center wow bounce" style="top:45%">
+            <a href=""><img src="../static/image/index-circle.png" alt=""> </a>
+    </div>
+    </div>
+
 {% endblock %}

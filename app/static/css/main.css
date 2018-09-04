@@ -35,8 +35,6 @@
 }
 
 
-
-
 /* index.html */
 
 /* 首页背景图 */
@@ -94,3 +92,6 @@
     border-radius: 6px;
 }
 
+#content-header-circle a{
+    cursor: pointer;
+}

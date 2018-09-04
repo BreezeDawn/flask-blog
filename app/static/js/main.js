@@ -1,3 +1,6 @@
+// 初始化wow.js
+new WOW().init();
+
 // ----------------------------------------------------------
 // 首页 首页 首页 首页 首页 首页 首页 首页 首页 首页 首页 首页 首页
 
@@ -276,3 +279,13 @@ $('.register-form').submit(function (e) {
             }
         })
 })
+
+
+$('#content-header-circle a').hover(
+    function () { 
+        $('#content-header-circle img').attr('class',"animated infinite bounce")
+},
+    function(){
+        $('#content-header-circle img').attr('class',"")
+}
+)
