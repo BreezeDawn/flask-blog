@@ -3,6 +3,32 @@
 
 ::selection{background: #1abc9c;}
 
+/* 底部备案 */
+.recordcode {
+    padding-top: 6px;
+    height: 16px;
+    line-height: 16px;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-bottom: 12px;
+}
+.recordcode a{
+    color:black;
+    text-decoration: none;
+    font-size: 12px;
+}
+
+/* .recordcode a i {
+    display: inline-block;
+    width: 14px;
+    height: 16px;
+    margin-right: 6px;
+    background: url(../img/icon-police.png) 0 0 no-repeat;
+    vertical-align: middle;
+    margin-top: -4px;
+} */
+
+
 /* 导航登录注册按钮 */
 .login-btn,.register-btn {
     cursor: pointer;

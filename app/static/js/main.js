@@ -2,14 +2,6 @@
 new WOW().init();
 
 // ----------------------------------------------------------
-// 首页 首页 首页 首页 首页 首页 首页 首页 首页 首页 首页 首页 首页
-
-// 首页图片 最大显示
-var wh = window.innerHeight;
-$('.content-header').css({'height':wh+'px'});
-
-
-// ----------------------------------------------------------
 // 登录页面 登录页面 登录页面 登录页面 登录页面 登录页面 登录页面 登录页面 登录页面
 
 // 登录页面 默认焦点
@@ -279,13 +271,3 @@ $('.register-form').submit(function (e) {
             }
         })
 })
-
-
-$('#content-header-circle a').hover(
-    function () { 
-        $('#content-header-circle img').attr('class',"animated infinite bounce")
-},
-    function(){
-        $('#content-header-circle img').attr('class',"")
-}
-)

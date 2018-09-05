@@ -240,8 +240,15 @@
     {%- endblock navbar %}
 
     {# ###content：用户定义的页面内容 #}
+
     {% block content -%}
     {%- endblock content %}
+
+    {% block bottom %}
+    <div class="recordcode">
+        <a href="http://www.miit.gov.cn/"><i></i>豫ICP备17044309号-1</a>
+    </div>
+    {% endblock bottom %}
 
     {# ###scripts：文档底部的JavaScript声明 #}
     {% block scripts %}
