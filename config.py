@@ -8,11 +8,11 @@ class Config:
     DEBUG = True
 
     # sqlalchemy.config
-    SQLALCHEMY_DATABASE_URI = "mysql://root:xiaodianchi@127.0.0.1:3306/flask_blog"
+    SQLALCHEMY_DATABASE_URI = "mysql+pymysql://maimai:xiaodianchi@192.168.128.128:3306/flask_blog"
     SQLALCHEMY_TRACK_MODIFICATIONS = False  # 是否追踪数据库变化
 
     # redis.config
-    REDIS_HOST = '127.0.0.1'
+    REDIS_HOST = '192.168.128.128'
     REDIS_PORT = '6379'
 
     # session.config

@@ -1,0 +1,4 @@
+# 短信验证码有效期
+SMS_EXPIRES_TIME = 300
+# 使用的短信模板ID
+SMS_TEMPLATE_ID = 1

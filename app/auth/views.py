@@ -5,9 +5,12 @@ from flask import request, jsonify, current_app, session, redirect, url_for
 from flask_login import login_required, login_user, logout_user
 
 from app import db, sr
+from app.auth.constants import SMS_EXPIRES_TIME, SMS_TEMPLATE_ID
 from app.models import User
 from app.auth import auth_blu
 from app.response_code import RET, error_map
+from app.utils.yuntongxun.sms import CCP
+
 
 @auth_blu.route('/login', methods=['POST'])
 def login():
@@ -105,11 +108,16 @@ def get_phone_idcode():
         sr.delete(mobile)
 
     try:
-        sr.set("phone_idcode" + mobile, idCode, 60)
+        sr.set("phone_idcode" + mobile, idCode, SMS_EXPIRES_TIME)
     except BaseException as e:
         current_app.logger.error(e)
         return jsonify(errno=RET.DBERR, errmsg=error_map[RET.DBERR])
 
+    # 使用云通讯发送短信
+    expires = SMS_EXPIRES_TIME // 60
+    sms_res = CCP().send_template_sms(mobile,{idCode,expires}, SMS_TEMPLATE_ID)
+    if sms_res:
+        return jsonify(errno=RET.THIRDERR, errmsg=error_map[RET.THIRDERR], idCode=idCode)
     current_app.logger.info("\n短信验证码为: %s.\n1分钟有效!" % idCode)
     return jsonify(errno=RET.OK, errmsg=error_map[RET.OK], idCode=idCode)
 
