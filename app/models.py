@@ -79,6 +79,7 @@ class Blogs(BaseModel, db.Model):
     __tablename__ = "blog_blogs"
 
     id = db.Column(db.Integer, primary_key=True)  # 博客编号
+    image_url = db.Column(db.String(256))  # 博客图片路径
     title = db.Column(db.String(256), nullable=False)  # 博客标题
     digest = db.Column(db.String(512), nullable=False)  # 博客摘要
     content = db.Column(db.Text, nullable=False)  # 博客内容
@@ -101,6 +102,7 @@ class Blogs(BaseModel, db.Model):
             "digest": self.digest,
             "create_time": self.create_time.strftime("%Y-%m-%d %H:%M:%S"),
             "clicks": self.clicks,
+            "image_url": self.index_image_url,
         }
         return resp_dict
 
@@ -111,6 +113,7 @@ class Blogs(BaseModel, db.Model):
             "digest": self.digest,
             "create_time": self.create_time.strftime("%Y-%m-%d %H:%M:%S"),
             "content": self.content,
+            "image_url": self.image_url,
             "clicks": self.clicks,
             "category": self.category.to_dict(),
             "author": self.user.to_dict() if self.user else None

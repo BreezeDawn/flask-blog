@@ -1,3 +1,9 @@
+/* 全局 */
+body {
+    background: url(../image/cat.jpg) no-repeat center center;
+    background-size:cover;
+    background-attachment:fixed;
+}
 
 /* base.html */
 

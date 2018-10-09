@@ -1,98 +1,96 @@
 {% extends "base.html" %}
+{% import "macros.html" as macros %}
+
+{%- block styles %}
+{{ super() }}
+<link rel="stylesheet" href="../static/css/index.css">
+{%- endblock styles %}
+
 
 {% block content %}
-   <div class="content-header" style="background: url(../static/image/index-background.jpg) no-repeat center center;background-size:cover;">
-    <div class="col-xs-12 text-center cover-layout">
-        <h1 class="content-header-h1 wow fadeIn" data-wow-delay="0.3s">Maifeel</h1>
-        <h3 class="content-header-h3 wow fadeIn" data-wow-delay="0.5s">Clean & minimal Blog </h3>
-        {% if user %}
-        <h3 class="content-header-h3"> 欢迎回来 ! </h3>
-        {% else %}
-        <ul class="list-inline btn-layout">
-            <li><a  id="header-login-btn" class="btn btn-lg wow fadeIn" data-wow-delay="0.7s" data-toggle="modal" data-target="#login-form">Login</a></li>
-            <li><a  id="header-register-btn" class="btn btn-lg wow fadeIn" data-wow-delay="1s" data-wow-duration="1s" data-toggle="modal" data-target="#register-form">Register</a></li>
-        </ul>
-        {% endif %}
-    </div>
-    <div id="content-header-circle" class="col-xs-12 text-center wow bounce" style="top:45%">
-            <a href=""><img src="../static/image/index-circle.png" alt=""> </a>
-    </div>
+    <div class="content-header" >
+        <div class="col-xs-12 text-center cover-layout">
+            <h1 class="content-header-h1 wow fadeIn" data-wow-delay="0.3s">Maifeel</h1>
+            <h3 class="content-header-h3 wow fadeIn" data-wow-delay="0.5s">Clean & minimal Blog </h3>
+            {% if user %}
+            <h3 class="content-header-h3"> 欢迎回来 ! </h3>
+            {% else %}
+            <ul class="list-inline btn-layout">
+                <li><a  id="header-login-btn" class="btn btn-lg wow fadeIn" data-wow-delay="0.7s" data-toggle="modal" data-target="#login-form">Login</a></li>
+                <li><a  id="header-register-btn" class="btn btn-lg wow fadeIn" data-wow-delay="1s" data-wow-duration="1s" data-toggle="modal" data-target="#register-form">Register</a></li>
+            </ul>
+            {% endif %}
+        </div>
+        <div id="content-header-circle" class="col-xs-12 text-center wow bounce" style="top:45%">
+                <a href="#content-body"><img src="../static/image/index-circle.png" alt=""> </a>
+        </div>
     </div>
 
-<p>123e123123123</p>
-<p>123e123123123</p>
-<p>123e123123123</p>
-<p>123e123123123</p>
-<p>123e123123123</p>
-<p>123e123123123</p>
-<p>123e123123123</p>
-<p>123e123123123</p>
-<p>123e123123123</p>
-<p>123e123123123</p>
-<p>123e123123123</p>
-<p>123e123123123</p>
-<p>123e123123123</p>
-<p>123e123123123</p>
-<p>123e123123123</p>
-<p>123e123123123</p>
-<p>123e123123123</p>
-<p>123e123123123</p>
-<p>123e123123123</p>
-<p>123e123123123</p>
-<p>123e123123123</p>
-<p>123e123123123</p>
-<p>123e123123123</p>
-<p>123e123123123</p>
-<p>123e123123123</p>
-<p>123e123123123</p>
-<p>123e123123123</p>
-<p>123e123123123</p>
-<p>123e123123123</p>
-<p>123e123123123</p>
-<p>123e123123123</p>
-<p>123e123123123</p>
-<p>123e123123123</p>
-<p>123e123123123</p>
-<p>123e123123123</p>
-<p>123e123123123</p>
-<p>123e123123123</p>
-<p>123e123123123</p>
-<p>123e123123123</p>
-<p>123e123123123</p>
-<p>123e123123123</p>
-<p>123e123123123</p>
+    <div class="col-xs-10 col-xs-offset-1 content-body" id="content-body">
+        <div class="blank">
+
+        </div>
+        <div class="content-container">
+            <div class="col-sm-9 col-xs-12 content-blogs">
+                {% for blog in blogs %}
+                <div class="blog">
+                    <header class="blog-header">
+                        <h2>
+                            <a href="" title="{{ blog.title }}">{{ blog.title }}</a>
+                        </h2>
+                    </header>
+                    <div class="blog-meta">
+                        <span class="pauthor">
+                            <i class="fa fa-user"></i>
+                            <a href="" title="博客管理员">{{ blog.author.nick_name }}</a>
+                        </span>
+                        <span class="ptime">
+                            <i class="fa fa-calendar"></i>
+                            {{ blog.create_time }}
+                        </span>
+                        <span class="pcate">
+                            <i class="fa fa-folder-open-o"></i>
+                            <a href="" title="查看{{ blog.category.name }}下的全部文章">{{ blog.category.name }}</a>
+                        </span>
+                        <span class="pcomm">
+                            <i class="fa fa-eye"></i>
+                            {{ blog.clicks }}人围观
+                        </span>
+                    </div>
+                    <div class="blog-content">
+                            <div class="blog-thumbnail">
+                                <a href="https://www.zcjun.com/yuanma/147.html">
+                                    <img src="{{ blog.image_url }}" alt="{{ blog.title }}" title="{{ blog.title }}" />
+                                </a>
+                            </div>
+                            <div class="blog-excerpt"> 
+                               {{ blog.digest|safe }}
+                            </div>
+                            <div class="clear"></div>
+                            <div class="goon">
+                                <a href="{{ url_for('main.blog',id = blog.id ) }}">继续阅读&raquo;</a>
+                            </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    
+        
+
+
+
 {% endblock %}
+
 
 {% block bottom %}
 {{ super() }}
 {% endblock bottom %}
 
+<!-- 继承basejs并为博文页面添加独立js -->
 {% block scripts %}
 {{ super() }}
-<script>
-// 首页封面 背景图最大显示
-var wh = window.innerHeight;
-$('.content-header').css({'height':wh+'px'});
-
-// 首页封面 向下按钮弹跳
-$('#content-header-circle a').hover(
-    function () { 
-        $('#content-header-circle img').attr('class',"animated infinite bounce")
-},
-    function(){
-        $('#content-header-circle img').attr('class',"")
-}
-)
-
-
-//首页导航 自动变色
-$(this).scroll(function(){
-    if (scrollY >= wh){
-        $('nav').removeClass('navbar-inverse')
-    }else{
-        $('nav').addClass('navbar-inverse')
-    }
-})
-
-</script>
+<script src="../static/js/index.js"></script>
 {%- endblock scripts %}
