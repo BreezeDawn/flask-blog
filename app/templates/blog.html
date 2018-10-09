@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{%- block styles %}
+{{ super() }}
+<link rel="stylesheet" href="../static/css/blog.css">
+{%- endblock styles %}
+
+
+{% block content -%}
+    <div class="col-xs-10 col-xs-offset-1 content-body" id="content-body">
+
+        <div class="blank">
+
+        </div>
+
+        <div class="content-container">
+            <div class="col-sm-9 col-xs-12 blog">
+                <header class="blog-header">
+                    <h2>
+                        <a href="" title="{{ blog.title }}">{{ blog.title }}</a>
+                    </h2>
+                </header>
+                <div class="blog-meta">
+                        <i class="fa fa-home"></i>
+                        <a href="{{ url_for('main.index') }}" title="返回首页"> 首页</a>
+                        &raquo;
+                        <i class="fa fa-folder-open-o"></i>
+                        <a href="{{ url_for('main.category',id=blog.category.id) }}" title="查看分类{{blog.category.name}}下的内容">{{blog.category.name}}</a>
+                        &raquo;
+                        <i class="fa fa-clock-o"></i>
+                        2018年8月8日下午 
+                </div>
+                <div class="blog-content">
+                        <div class="blog-context"> 
+                           {{ blog.content|safe }}
+                        </div>
+                </div>
+            </div>
+
+            <div class="col-sm-9 col-xs-12 content-lisence">
+                <div class="post-tags">
+                    <i class="fa fa-tags"></i>本文标签：
+                    <a rel="tag" href="{{ url_for('main.category',id=blog.category.id) }}">{{ blog.category.name }}</a>
+                </div>
+                <i class="fa fa-bullhorn"></i> 版权声明：
+                若无特殊注明，本文皆为《<a href="" title="">{{ blog.author.nick_name }}</a>》原创，转载请保留文章出处。<br>
+                <i class="fa fa-share-alt-square"></i> 本文链接：{{ blog.title }}丨更新于{{ blog.create_time }} https://www.xingtu.info/blog/{{ blog.id }}</br>
+                <i class="fa fa-paw"></i> 百度收录：
+                <a style="color:green;" rel="external nofollow" title="本文已被百度收录" target="_blank" href="http://www.baidu.com/s?wd=https://www.xingtu.info/blog/{{ blog.id }}">本文已被百度收录点击查看详情！</a>
+            </div>
+            <div class="col-sm-9 col-xs-12 cutline">
+                <span>正文到此结束</span>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+{%- endblock content %}
+
+
+<!-- 继承basejs并为博文页面添加独立js -->
+{% block scripts %}
+{{ super() }}
+<script src="../static/js/blog.js"></script>
+{%- endblock scripts %}
