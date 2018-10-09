@@ -3,6 +3,17 @@ new WOW().init();
 
 $('nav').css('background','rgba(255,255,255,.8)')
 
+// 自动激活导航
+    $(".nav").find("li").each(function () {
+        var a = $(this).find("a:first")[0];
+        if ($(a).attr("href") === location.pathname) {
+            $(this).addClass("active");
+        } else {
+            $(this).removeClass("active");
+        }
+});
+
+ 
 
 // ----------------------------------------------------------
 // 登录页面 登录页面 登录页面 登录页面 登录页面 登录页面 登录页面 登录页面 登录页面

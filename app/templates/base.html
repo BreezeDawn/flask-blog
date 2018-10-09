@@ -54,7 +54,8 @@
             </div>
             <div class="collapse navbar-collapse" id="navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">首页</a></li>
+                    <li class=""><a href="{{ url_for('main.index') }}">首页</a></li>
+                    <li class=""><a href="{{ url_for('main.postblog') }}">发表文章</a></li>
                     <!-- <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             技术 <b class="caret"></b>
